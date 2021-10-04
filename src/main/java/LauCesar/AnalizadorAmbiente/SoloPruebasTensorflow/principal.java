@@ -1,41 +1,29 @@
 package LauCesar.AnalizadorAmbiente.SoloPruebasTensorflow;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.data.xy.DefaultXYDataset;
-import org.jfree.data.xy.XYDataset;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
+import org.tensorflow.ConcreteFunction;
+import org.tensorflow.Signature;
+import org.tensorflow.Tensor;
+import org.tensorflow.TensorFlow;
+import org.tensorflow.op.Ops;
+import org.tensorflow.op.core.Placeholder;
+import org.tensorflow.op.math.Add;
+import org.tensorflow.types.TInt32;
 
 public class principal {
 
-    public static void main(String[] args) throws Exception {
-        DefaultXYDataset dataset = new DefaultXYDataset();
-        dataset.addSeries("firefox", new double[][] {{ 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017 }, { 25, 29.1, 32.1, 32.9, 31.9, 25.5, 20.1, 18.4, 15.3, 11.4, 9.5 }});
-        dataset.addSeries("ie", new double[][] {{ 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017 }, { 67.7, 63.1, 60.2, 50.6, 41.1, 31.8, 27.6, 20.4, 17.3, 12.3, 8.1 }});
-        dataset.addSeries("chrome", new double[][] {{ 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017 }, { 0.2, 6.4, 14.6, 25.3, 30.1, 34.3, 43.2, 47.3, 58.4 }});
+  public static void main(String[] args) throws Exception {
+    System.out.println("Hello TensorFlow " + TensorFlow.version());
 
-        XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
-        renderer.setSeriesPaint(0, Color.ORANGE);
-        renderer.setSeriesPaint(1, Color.BLUE);
-        renderer.setSeriesPaint(2, Color.GREEN);
-        renderer.setSeriesStroke(0, new BasicStroke(2));
-        renderer.setSeriesStroke(1, new BasicStroke(2));
-        renderer.setSeriesStroke(2, new BasicStroke(2));
-
-        JFreeChart chart = ChartFactory.createXYLineChart("Browser Quota", "Year", "Quota", dataset);
-        chart.getXYPlot().getRangeAxis().setRange(0, 100);
-        ((NumberAxis) chart.getXYPlot().getRangeAxis()).setNumberFormatOverride(new DecimalFormat("#'%'"));
-        chart.getXYPlot().setRenderer(renderer);
-
-        BufferedImage image = chart.createBufferedImage(600, 400);
-        ImageIO.write(image, "png", new File("xy-chart.png"));
+    try (ConcreteFunction dbl = ConcreteFunction.create(principal::dbl);
+        Tensor<TInt32> x = TInt32.scalarOf(10);
+        Tensor<TInt32> dblX = dbl.call(x).expect(TInt32.DTYPE)) {
+      System.out.println(x.data().getInt() + " doubled is " + dblX.data().getInt());
     }
+  }
+
+  private static Signature dbl(Ops tf) {
+    Placeholder<TInt32> x = tf.placeholder(TInt32.DTYPE);
+    Add<TInt32> dblX = tf.math.add(x, x);
+    return Signature.builder().input("x", x).output("dbl", dblX).build();
+  }
 }
