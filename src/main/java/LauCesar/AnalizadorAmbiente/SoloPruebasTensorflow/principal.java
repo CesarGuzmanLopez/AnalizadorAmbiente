@@ -11,19 +11,7 @@ import org.tensorflow.types.TInt32;
 
 public class principal {
 
-  public static void main(String[] args) throws Exception {
-    System.out.println("Hello TensorFlow " + TensorFlow.version());
-
-    try (ConcreteFunction dbl = ConcreteFunction.create(principal::dbl);
-        Tensor<TInt32> x = TInt32.scalarOf(10);
-        Tensor<TInt32> dblX = dbl.call(x).expect(TInt32.DTYPE)) {
-      System.out.println(x.data().getInt() + " doubled is " + dblX.data().getInt());
-    }
-  }
-
-  private static Signature dbl(Ops tf) {
-    Placeholder<TInt32> x = tf.placeholder(TInt32.DTYPE);
-    Add<TInt32> dblX = tf.math.add(x, x);
-    return Signature.builder().input("x", x).output("dbl", dblX).build();
-  }
+	public static void main(String[] args) {
+		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+	}
 }
