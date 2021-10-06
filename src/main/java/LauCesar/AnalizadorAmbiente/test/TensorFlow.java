@@ -8,7 +8,7 @@ public class TensorFlow implements Acceso_RED {
 
 	@Override
 	public float[] frecuenciasTemperatura() {
-	 
+
 		return null;
 	}
 
@@ -33,7 +33,7 @@ public class TensorFlow implements Acceso_RED {
 	@Override
 	public void Analizar() throws PaqueteriaNoEncontrada {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

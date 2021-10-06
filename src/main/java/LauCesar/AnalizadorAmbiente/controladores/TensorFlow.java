@@ -8,7 +8,7 @@ public class TensorFlow implements Acceso_RED {
 
 	@Override
 	public float[] frecuenciasTemperatura() {
-	 
+
 		return null;
 	}
 
@@ -21,7 +21,6 @@ public class TensorFlow implements Acceso_RED {
 	@Override
 	public CalidadAmbiente CapacidadBacteriana() {
 
-
 		return null;
 	}
 
@@ -30,11 +29,13 @@ public class TensorFlow implements Acceso_RED {
 
 		return null;
 	}
+
 	public TensorFlow() {
-		
+
 	}
-	public void Analizar()throws PaqueteriaNoEncontrada {
-		
+
+	public void Analizar() throws PaqueteriaNoEncontrada {
+
 	}
 
 }

@@ -17,10 +17,10 @@ import java.awt.event.MouseEvent;
 public class principal {
 
 	private JFrame frmAnalizadorDeAmbiente;
-	
-	private panel_inicio 			panelinicio;
-	private panel_analizar_datos 	pantallaAnalizar;
-	private panel_log_datos			pantallailogInicio;
+
+	private panel_inicio panelinicio;
+	private panel_analizar_datos pantallaAnalizar;
+	private panel_log_datos pantallailogInicio;
 
 	/**
 	 * Launch the application.
@@ -43,10 +43,10 @@ public class principal {
 	 */
 	public principal() {
 		initialize();
- 	}
+	}
 
 	public principal(Ventanas_frame s) {
- 	}
+	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -56,12 +56,11 @@ public class principal {
 		frmAnalizadorDeAmbiente.setTitle("Analizador de Ambiente");
 		frmAnalizadorDeAmbiente.setBounds(100, 100, 477, 373);
 		frmAnalizadorDeAmbiente.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		panelinicio = new panel_inicio(this);
 		pantallaAnalizar = new panel_analizar_datos(this);
 		pantallailogInicio = new panel_log_datos(this);
-		
-		
+
 		frmAnalizadorDeAmbiente.getContentPane().add(panelinicio, BorderLayout.CENTER);
 
 		JMenuBar menuBar = new JMenuBar();
@@ -70,8 +69,6 @@ public class principal {
 		JMenu mnNewMenu = new JMenu("Archivo");
 		menuBar.add(mnNewMenu);
 
-
-	 
 		JMenuItem mntmNewMenuItem = new JMenuItem("Guardar");
 		mntmNewMenuItem.addMouseListener(new MouseAdapter() {
 			@Override
@@ -92,6 +89,7 @@ public class principal {
 					}
 				}
 			}
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				String texto = pantallailogInicio.textArea.getText();
@@ -116,37 +114,37 @@ public class principal {
 		menuBar.add(mnNewMenu_1);
 
 	}
-	public void cambiapantalla(Ventanas_frame Select ) {
+
+	public void cambiapantalla(Ventanas_frame Select) {
 		pantallaAnalizar.setVisible(false);
 		panelinicio.setVisible(false);
 		pantallailogInicio.setVisible(false);
-		
+
 		frmAnalizadorDeAmbiente.getContentPane().removeAll();
-		frmAnalizadorDeAmbiente.getContentPane().invalidate(); 
+		frmAnalizadorDeAmbiente.getContentPane().invalidate();
 		switch (Select) {
 		case analizar: {
 			pantallaAnalizar.setVisible(true);
 			frmAnalizadorDeAmbiente.getContentPane().add(pantallaAnalizar, BorderLayout.CENTER);
 
 		}
-		break;
-		case inicio:{
-			panelinicio.setVisible(true); 
-			frmAnalizadorDeAmbiente.getContentPane().add(panelinicio, BorderLayout.CENTER); 
+			break;
+		case inicio: {
+			panelinicio.setVisible(true);
+			frmAnalizadorDeAmbiente.getContentPane().add(panelinicio, BorderLayout.CENTER);
 		}
-		break;
-		case log_datos:{
+			break;
+		case log_datos: {
 			pantallailogInicio.setVisible(true);
 
 			frmAnalizadorDeAmbiente.getContentPane().add(pantallailogInicio, BorderLayout.CENTER);
 		}
-		break;
+			break;
 		default:
 			throw new IllegalArgumentException("Ventana inexitente: " + Select);
 		}
 		frmAnalizadorDeAmbiente.getContentPane().revalidate();
 
-		
 	}
- 
+
 }

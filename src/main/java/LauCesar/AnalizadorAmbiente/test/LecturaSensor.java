@@ -11,22 +11,24 @@ public class LecturaSensor implements Lectura_datos_Sensor {
 	public LecturaSensor() {
 		TodosLosDatos();
 	}
+
 	private DatoSensor[] TodosLosDatos;
+
 	@Override
 	public DatoSensor[] TodosLosDatos() {
-		if(TodosLosDatos != null)
+		if (TodosLosDatos != null)
 			return TodosLosDatos;
-		
+
 		TodosLosDatos = new DatoSensor[1000];
-		int i=0;
-		for(; i<333; i++) {
-			TodosLosDatos[i] =  new DatoSensor(Math.random()*10, tipodesensor.gas);
+		int i = 0;
+		for (; i < 333; i++) {
+			TodosLosDatos[i] = new DatoSensor(Math.random() * 10, tipodesensor.gas);
 		}
-		for(; i<666; i++) {
-			TodosLosDatos[i] =  new DatoSensor(Math.random()*10, tipodesensor.temperatura);
+		for (; i < 666; i++) {
+			TodosLosDatos[i] = new DatoSensor(Math.random() * 10, tipodesensor.temperatura);
 		}
-		for(; i<1000; i++) {
-			TodosLosDatos[i] =  new DatoSensor(Math.random()*10, tipodesensor.polvo);
+		for (; i < 1000; i++) {
+			TodosLosDatos[i] = new DatoSensor(Math.random() * 10, tipodesensor.polvo);
 		}
 		return TodosLosDatos;
 	}
@@ -54,17 +56,18 @@ public class LecturaSensor implements Lectura_datos_Sensor {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	@Override
 	public String toString() {
-		String Salida="";
-		for(DatoSensor a: TodosLosDatos) {
-			Salida +="Sensor "+ a.sensor +" Dato: "+a.Dato+"\n";
+		String Salida = "";
+		for (DatoSensor a : TodosLosDatos) {
+			Salida += "Sensor " + a.sensor + " Dato: " + a.Dato + "\n";
 		}
 		return Salida;
 	}
 
 	@Override
-	public boolean LecturaDatos() throws ExcepcionLectura {
+	public boolean Resume() throws ExcepcionLectura {
 
 		throw new ExcepcionLectura();
 		// false;
@@ -88,18 +91,14 @@ public class LecturaSensor implements Lectura_datos_Sensor {
 		return null;
 	}
 
-	@Override
 	public void ControladorDatos(JTextArea a) throws InterruptedException {
-		String texto="";
-		for( DatoSensor b: TodosLosDatos  ) {
-			texto += "sensor de: "+b.sensor+" " +b.Dato+"\n";
+		String texto = "";
+		for (DatoSensor b : TodosLosDatos) {
+			texto += "sensor de: " + b.sensor + " " + b.Dato + "\n";
 			a.setText(texto);
 			Thread.sleep(2);
 		}
-		
-		
-		
+
 	}
-	
 
 }

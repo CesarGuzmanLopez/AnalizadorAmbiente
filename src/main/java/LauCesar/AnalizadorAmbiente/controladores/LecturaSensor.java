@@ -1,20 +1,28 @@
 package LauCesar.AnalizadorAmbiente.controladores;
 
-
-
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.swing.JTextArea;
 
 import LauCesar.AnalizadorAmbiente.Interfaces.Lectura_datos_Sensor;
 import LauCesar.AnalizadorAmbiente.Modelos.DatoSensor;
+import LauCesar.AnalizadorAmbiente.services.ArduinoToJava;
 
-public class LecturaSensor implements Lectura_datos_Sensor {
-	LecturaSensor(){
-		
+public class LecturaSensor implements Lectura_datos_Sensor, Runnable {
+	JTextArea AreaText;
+	ArduinoToJava ATJ;
+	boolean pausa;
+	volatile int i;
+
+	public LecturaSensor(JTextArea a, String Puerto) {
+		this.AreaText = a;
+		ATJ = new ArduinoToJava(Puerto,a);
+		i = 0;
+		pausa =false;
 	}
 	@Override
 	public DatoSensor[] TodosLosDatos() {
-
 		return null;
 	}
 
@@ -40,20 +48,23 @@ public class LecturaSensor implements Lectura_datos_Sensor {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	@Override
-	public boolean LecturaDatos() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 	@Override
 	public boolean PausaLectura() {
-		// TODO Auto-generated method stub
-		return false;
+		ATJ.Pause();
+		pausa=true;
+		return true;
+	}
+	@Override
+	public boolean Resume() {
+		ATJ.resume();
+		pausa = false;
+		return true;
 	}
 	@Override
 	public boolean Finalizar() {
-		// TODO Auto-generated method stub
-		return false;
+		ATJ.finalizar();
+		return true;
 	}
 	@Override
 	public String ImprimeDatos() {
@@ -61,9 +72,9 @@ public class LecturaSensor implements Lectura_datos_Sensor {
 		return null;
 	}
 	@Override
-	public void ControladorDatos(JTextArea a) {
-		// TODO Auto-generated method stub
-		
+	public void run() {
+		ExecutorService threadPool = Executors.newFixedThreadPool(3);
+		threadPool.submit(ATJ);
+		threadPool.shutdown();
 	}
-
 }

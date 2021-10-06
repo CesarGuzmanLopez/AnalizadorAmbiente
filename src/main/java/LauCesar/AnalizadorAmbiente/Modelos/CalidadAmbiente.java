@@ -1,7 +1,5 @@
 package LauCesar.AnalizadorAmbiente.Modelos;
 
 public enum CalidadAmbiente {
-	Baja,
-	Intermedia,
-	Alta
+	Baja, Intermedia, Alta
 }

@@ -1,9 +1,5 @@
 package LauCesar.AnalizadorAmbiente.Modelos;
 
 public enum tipodesensor {
-	temperatura,
-	polvo,
-	gas,
-	presion,
-	humedad
+	temperatura, polvo, gas, presion, humedad
 }
