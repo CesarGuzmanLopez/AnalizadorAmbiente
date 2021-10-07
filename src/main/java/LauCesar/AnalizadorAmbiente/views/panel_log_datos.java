@@ -35,7 +35,7 @@ public class panel_log_datos extends JPanel {
 		pantallaPrincipal = a;
 		
 		setLayout(null);
-		LecturaSensor Arduino = new LecturaSensor(textArea, "NOdo");
+		LecturaSensor Arduino = new LecturaSensor(textArea, null);
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(170, 90, 253, 194);
 		add(scrollPane);
@@ -100,9 +100,11 @@ public class panel_log_datos extends JPanel {
 					btnNewButton_1.setEnabled(true);
 					btnNewButton_2.setEnabled(true);
 					btnNewButton.setEnabled(true);
+					Arduino.inicializaTarde(comboBox.getSelectedItem().toString());
 				}
 			}
 		});
+		
 		comboBox.setModel(new DefaultComboBoxModel<Puertos>(Puertos.values()));
 		comboBox.setBounds(205, 57, 70, 22);
 		add(comboBox);
@@ -110,6 +112,7 @@ public class panel_log_datos extends JPanel {
 		JLabel lblNewLabel_1 = new JLabel("Puerto");
 		lblNewLabel_1.setBounds(163, 57, 46, 14);
 		add(lblNewLabel_1);
+		
 		JButton btnNewButton_4 = new JButton("Monitorear Datos");
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

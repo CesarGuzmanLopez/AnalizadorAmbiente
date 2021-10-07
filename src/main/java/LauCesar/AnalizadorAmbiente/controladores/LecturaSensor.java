@@ -17,13 +17,18 @@ public class LecturaSensor implements Lectura_datos_Sensor, Runnable {
 	ArduinoToJava ATJ;
 	boolean pausa;
 	volatile int i;
-
+	public void inicializaTarde(String Puerto) {
+		ATJ = new ArduinoToJava(Puerto,AreaText);
+	}
 	public LecturaSensor(JTextArea a, String Puerto) {
 		this.AreaText = a;
-		ATJ = new ArduinoToJava(Puerto,a);
+		if(Puerto!=null)
+			ATJ = new ArduinoToJava(Puerto,a);
 		i = 0;
 		pausa =false;
 	}
+	
+	
 	@Override
 	public DatoSensor[] TodosLosDatos() {
 		int numdatos =  ATJ.getNumDatos();
@@ -33,7 +38,7 @@ public class LecturaSensor implements Lectura_datos_Sensor, Runnable {
 		}
 		return Todos;
 	}
-
+	
 	@Override
 	public DatoSensor[] TodosLosDatosTemperatura() {
 		List<DatoSensor> Datos = new LinkedList<DatoSensor>();

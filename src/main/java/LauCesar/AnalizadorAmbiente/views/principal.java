@@ -17,7 +17,6 @@ import java.awt.event.MouseEvent;
 public class principal {
 
 	private JFrame frmAnalizadorDeAmbiente;
-
 	private panel_inicio panelinicio;
 	private panel_analizar_datos pantallaAnalizar;
 	private panel_log_datos pantallailogInicio;
