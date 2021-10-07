@@ -3,6 +3,8 @@ package LauCesar.AnalizadorAmbiente.services;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JTextArea;
+
+import LauCesar.AnalizadorAmbiente.Exceptions.DispositivoNoConectado;
 import LauCesar.AnalizadorAmbiente.Modelos.*;
 
 public class ArduinoToJava implements Runnable {
@@ -12,6 +14,8 @@ public class ArduinoToJava implements Runnable {
 	private volatile boolean finalizado;
 	private int numDatos;
 	JTextArea text;
+	
+	
 
 	public ArduinoToJava(String Puerto, JTextArea a) {
 		Data = new LinkedList<DatoSensor>();
@@ -74,30 +78,31 @@ public class ArduinoToJava implements Runnable {
 	}
 
 	public void finalizar() {
-		finalizado = false;
+		finalizado = true;
 	}
 
 	public List<DatoSensor> getData() {
 		return Data;
 	}
 
-	public void AgregaUnDatoSensor() throws InterruptedException {
-		try {
-			DatoSensor a, b, c;
+	public void AgregaUnDatoSensor() throws InterruptedException, DispositivoNoConectado {
+		
+			DatoSensor a, b, c, d;
 			a = new DatoSensor(Math.random() * 10, tipodesensor.gas);
 			b = new DatoSensor(Math.random() * 10, tipodesensor.temperatura);
 			c = new DatoSensor(Math.random() * 10, tipodesensor.polvo);
+			d = new DatoSensor(Math.random() * 10, tipodesensor.humedad);
 			Data.add(a);
 			numDatos++;
 			Data.add(b);
 			numDatos++;
 			Data.add(c);
 			numDatos++;
+			Data.add(d);
+			numDatos++;
 			if (text != null)
-				text.append(a.toString() + b.toString() + c.toString());
-		} catch (Exception e) {
-			System.err.println("Error: " + e);
-		}
+				text.append(a.toString() + b.toString() + c.toString() + d.toString());
+		
 		Thread.sleep(400);
 	}
 
