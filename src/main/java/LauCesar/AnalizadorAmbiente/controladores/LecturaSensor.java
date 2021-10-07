@@ -1,5 +1,7 @@
 package LauCesar.AnalizadorAmbiente.controladores;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -7,6 +9,7 @@ import javax.swing.JTextArea;
 
 import LauCesar.AnalizadorAmbiente.Interfaces.Lectura_datos_Sensor;
 import LauCesar.AnalizadorAmbiente.Modelos.DatoSensor;
+import LauCesar.AnalizadorAmbiente.Modelos.tipodesensor;
 import LauCesar.AnalizadorAmbiente.services.ArduinoToJava;
 
 public class LecturaSensor implements Lectura_datos_Sensor, Runnable {
@@ -23,30 +26,76 @@ public class LecturaSensor implements Lectura_datos_Sensor, Runnable {
 	}
 	@Override
 	public DatoSensor[] TodosLosDatos() {
-		return null;
+		int numdatos =  ATJ.getNumDatos();
+		DatoSensor [] Todos = new DatoSensor[i];
+		for(int i=0; i<numdatos; i++) {
+			Todos[i]=ATJ.getData().get(i);
+		}
+		return Todos;
 	}
 
 	@Override
 	public DatoSensor[] TodosLosDatosTemperatura() {
-		return null;
+		List<DatoSensor> Datos = new LinkedList<DatoSensor>();
+		int numdatos = ATJ.getNumDatos();
+		for(int i=0; i<numdatos; i++) {
+			if(ATJ.getData().get(i).sensor == tipodesensor.temperatura)
+				Datos.add( ATJ.getData().get(i));
+		}
+		numdatos = Datos.size();
+		DatoSensor [] Todos = new DatoSensor[numdatos];
+		for(int i=0; i<numdatos; i++) {
+			Todos[i]=Datos.get(i);
+		}
+		return Todos;
 	}
 
 	@Override
 	public DatoSensor[] TodosLosDatosHumedad() {
-		// TODO Auto-generated method stub
-		return null;
+		List<DatoSensor> Datos = new LinkedList<DatoSensor>();
+		int numdatos = ATJ.getNumDatos();
+		for(int i=0; i<numdatos; i++) {
+			if(ATJ.getData().get(i).sensor == tipodesensor.humedad)
+				Datos.add( ATJ.getData().get(i));
+		}
+		numdatos = Datos.size();
+		DatoSensor [] Todos = new DatoSensor[numdatos];
+		for(int i=0; i<numdatos; i++) {
+			Todos[i]=Datos.get(i);
+		}
+		return Todos;
 	}
 
 	@Override
 	public DatoSensor[] TodosLosDatospolvo() {
-		// TODO Auto-generated method stub
-		return null;
+		List<DatoSensor> Datos = new LinkedList<DatoSensor>();
+		int numdatos = ATJ.getNumDatos();
+		for(int i=0; i<numdatos; i++) {
+			if(ATJ.getData().get(i).sensor == tipodesensor.polvo)
+				Datos.add( ATJ.getData().get(i));
+		}
+		numdatos = Datos.size();
+		DatoSensor [] Todos = new DatoSensor[numdatos];
+		for(int i=0; i<numdatos; i++) {
+			Todos[i]=Datos.get(i);
+		}
+		return Todos;
 	}
 
 	@Override
 	public DatoSensor[] TodosLosDatosGas() {
-		// TODO Auto-generated method stub
-		return null;
+		List<DatoSensor> Datos = new LinkedList<DatoSensor>();
+		int numdatos = ATJ.getNumDatos();
+		for(int i=0; i<numdatos; i++) {
+			if(ATJ.getData().get(i).sensor == tipodesensor.gas)
+				Datos.add( ATJ.getData().get(i));
+		}
+		numdatos = Datos.size();
+		DatoSensor [] Todos = new DatoSensor[numdatos];
+		for(int i=0; i<numdatos; i++) {
+			Todos[i]=Datos.get(i);
+		}
+		return Todos;
 	}
 
 	@Override
@@ -68,8 +117,12 @@ public class LecturaSensor implements Lectura_datos_Sensor, Runnable {
 	}
 	@Override
 	public String ImprimeDatos() {
-		// TODO Auto-generated method stub
-		return null;
+		String salida="";
+		int numdatos =  ATJ.getNumDatos();
+		for(int i=0; i<numdatos; i++) {
+			salida +=" "+ATJ.getData().get(i).sensor +" "+ATJ.getData().get(i).Dato;
+		}
+		return salida;
 	}
 	@Override
 	public void run() {

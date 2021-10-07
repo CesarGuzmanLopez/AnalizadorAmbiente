@@ -9,7 +9,6 @@ public class ArduinoToJava implements Runnable {
 	private List<DatoSensor> Data;
 	private Object o;
 	private volatile boolean pause;
-
 	private volatile boolean finalizado;
 	private int numDatos;
 	JTextArea text;
@@ -89,16 +88,17 @@ public class ArduinoToJava implements Runnable {
 			b = new DatoSensor(Math.random() * 10, tipodesensor.temperatura);
 			c = new DatoSensor(Math.random() * 10, tipodesensor.polvo);
 			Data.add(a);
+			numDatos++;
 			Data.add(b);
+			numDatos++;
 			Data.add(c);
-			numDatos += 3;
+			numDatos++;
 			if (text != null)
 				text.append(a.toString() + b.toString() + c.toString());
 		} catch (Exception e) {
 			System.err.println("Error: " + e);
 		}
 		Thread.sleep(400);
-
 	}
 
 }
