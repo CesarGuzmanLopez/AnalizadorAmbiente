@@ -9,7 +9,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
-
+import LauCesar.AnalizadorAmbiente.Modelos.*;
 public class panel_analizar_datos extends JPanel {
 	/**
 	 * 
@@ -71,6 +71,7 @@ public class panel_analizar_datos extends JPanel {
 		JButton btnNewButton_3 = new JButton("Inicio");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				pantallaPrincipal.cambiapantalla(Ventanas_frame.inicio);
 			}
 		});

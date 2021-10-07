@@ -44,6 +44,7 @@ public class principal {
 		initialize();
 	}
 
+	
 	public principal(Ventanas_frame s) {
 	}
 
