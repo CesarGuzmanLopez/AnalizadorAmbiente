@@ -17,40 +17,46 @@ public class LecturaSensor implements Lectura_datos_Sensor, Runnable {
 	ArduinoToJava ATJ;
 	boolean pausa;
 	volatile int i;
+
 	public void inicializaTarde(String Puerto) {
-		ATJ = new ArduinoToJava(Puerto,AreaText);
+		ATJ = new ArduinoToJava(Puerto, AreaText);
 	}
+
 	public LecturaSensor(JTextArea a, String Puerto) {
 		this.AreaText = a;
-		if(Puerto!=null)
-			ATJ = new ArduinoToJava(Puerto,a);
+		if (Puerto != null)
+			ATJ = new ArduinoToJava(Puerto, a);
 		i = 0;
-		pausa =false;
+		pausa = false;
 	}
-	
-	
+	public LecturaSensor(JTextArea a) {
+		this.AreaText = a;
+		ATJ = new ArduinoToJava();
+		i = 0;
+		pausa = false;
+	}
 	@Override
 	public DatoSensor[] TodosLosDatos() {
-		int numdatos =  ATJ.getNumDatos();
-		DatoSensor [] Todos = new DatoSensor[i];
-		for(int i=0; i<numdatos; i++) {
-			Todos[i]=ATJ.getData().get(i);
+		int numdatos = ATJ.getNumDatos();
+		DatoSensor[] Todos = new DatoSensor[i];
+		for (int i = 0; i < numdatos; i++) {
+			Todos[i] = ATJ.getData().get(i);
 		}
 		return Todos;
 	}
-	
+
 	@Override
 	public DatoSensor[] TodosLosDatosTemperatura() {
 		List<DatoSensor> Datos = new LinkedList<DatoSensor>();
 		int numdatos = ATJ.getNumDatos();
-		for(int i=0; i<numdatos; i++) {
-			if(ATJ.getData().get(i).sensor == tipodesensor.temperatura)
-				Datos.add( ATJ.getData().get(i));
+		for (int i = 0; i < numdatos; i++) {
+			if (ATJ.getData().get(i).sensor == tipodesensor.temperatura)
+				Datos.add(ATJ.getData().get(i));
 		}
 		numdatos = Datos.size();
-		DatoSensor [] Todos = new DatoSensor[numdatos];
-		for(int i=0; i<numdatos; i++) {
-			Todos[i]=Datos.get(i);
+		DatoSensor[] Todos = new DatoSensor[numdatos];
+		for (int i = 0; i < numdatos; i++) {
+			Todos[i] = Datos.get(i);
 		}
 		return Todos;
 	}
@@ -59,14 +65,14 @@ public class LecturaSensor implements Lectura_datos_Sensor, Runnable {
 	public DatoSensor[] TodosLosDatosHumedad() {
 		List<DatoSensor> Datos = new LinkedList<DatoSensor>();
 		int numdatos = ATJ.getNumDatos();
-		for(int i=0; i<numdatos; i++) {
-			if(ATJ.getData().get(i).sensor == tipodesensor.humedad)
-				Datos.add( ATJ.getData().get(i));
+		for (int i = 0; i < numdatos; i++) {
+			if (ATJ.getData().get(i).sensor == tipodesensor.humedad)
+				Datos.add(ATJ.getData().get(i));
 		}
 		numdatos = Datos.size();
-		DatoSensor [] Todos = new DatoSensor[numdatos];
-		for(int i=0; i<numdatos; i++) {
-			Todos[i]=Datos.get(i);
+		DatoSensor[] Todos = new DatoSensor[numdatos];
+		for (int i = 0; i < numdatos; i++) {
+			Todos[i] = Datos.get(i);
 		}
 		return Todos;
 	}
@@ -75,14 +81,14 @@ public class LecturaSensor implements Lectura_datos_Sensor, Runnable {
 	public DatoSensor[] TodosLosDatospolvo() {
 		List<DatoSensor> Datos = new LinkedList<DatoSensor>();
 		int numdatos = ATJ.getNumDatos();
-		for(int i=0; i<numdatos; i++) {
-			if(ATJ.getData().get(i).sensor == tipodesensor.polvo)
-				Datos.add( ATJ.getData().get(i));
+		for (int i = 0; i < numdatos; i++) {
+			if (ATJ.getData().get(i).sensor == tipodesensor.polvo)
+				Datos.add(ATJ.getData().get(i));
 		}
 		numdatos = Datos.size();
-		DatoSensor [] Todos = new DatoSensor[numdatos];
-		for(int i=0; i<numdatos; i++) {
-			Todos[i]=Datos.get(i);
+		DatoSensor[] Todos = new DatoSensor[numdatos];
+		for (int i = 0; i < numdatos; i++) {
+			Todos[i] = Datos.get(i);
 		}
 		return Todos;
 	}
@@ -91,14 +97,14 @@ public class LecturaSensor implements Lectura_datos_Sensor, Runnable {
 	public DatoSensor[] TodosLosDatosGas() {
 		List<DatoSensor> Datos = new LinkedList<DatoSensor>();
 		int numdatos = ATJ.getNumDatos();
-		for(int i=0; i<numdatos; i++) {
-			if(ATJ.getData().get(i).sensor == tipodesensor.gas)
-				Datos.add( ATJ.getData().get(i));
+		for (int i = 0; i < numdatos; i++) {
+			if (ATJ.getData().get(i).sensor == tipodesensor.gas)
+				Datos.add(ATJ.getData().get(i));
 		}
 		numdatos = Datos.size();
-		DatoSensor [] Todos = new DatoSensor[numdatos];
-		for(int i=0; i<numdatos; i++) {
-			Todos[i]=Datos.get(i);
+		DatoSensor[] Todos = new DatoSensor[numdatos];
+		for (int i = 0; i < numdatos; i++) {
+			Todos[i] = Datos.get(i);
 		}
 		return Todos;
 	}
@@ -106,33 +112,42 @@ public class LecturaSensor implements Lectura_datos_Sensor, Runnable {
 	@Override
 	public boolean PausaLectura() {
 		ATJ.Pause();
-		pausa=true;
+		pausa = true;
 		return true;
 	}
+
 	@Override
 	public boolean Resume() {
 		ATJ.resume();
 		pausa = false;
 		return true;
 	}
+
 	@Override
 	public boolean Finalizar() {
 		ATJ.finalizar();
 		return true;
 	}
+
 	@Override
 	public String ImprimeDatos() {
-		String salida="";
-		int numdatos =  ATJ.getNumDatos();
-		for(int i=0; i<numdatos; i++) {
-			salida +=" "+ATJ.getData().get(i).sensor +" "+ATJ.getData().get(i).Dato;
+		String salida = "";
+		int numdatos = ATJ.getNumDatos();
+		for (int i = 0; i < numdatos; i++) {
+			salida += " " + ATJ.getData().get(i).sensor + " " + ATJ.getData().get(i).Dato;
 		}
 		return salida;
 	}
+
 	@Override
 	public void run() {
 		ExecutorService threadPool = Executors.newFixedThreadPool(3);
 		threadPool.submit(ATJ);
 		threadPool.shutdown();
+	}
+
+	@Override
+	public List<String> getPuertos() {
+		return ATJ.getPuertos();
 	}
 }

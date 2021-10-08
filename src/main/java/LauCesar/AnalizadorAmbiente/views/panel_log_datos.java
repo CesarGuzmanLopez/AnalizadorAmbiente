@@ -3,7 +3,7 @@ package LauCesar.AnalizadorAmbiente.views;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.awt.event.ActionEvent;
@@ -35,7 +35,7 @@ public class panel_log_datos extends JPanel {
 		pantallaPrincipal = a;
 		
 		setLayout(null);
-		LecturaSensor Arduino = new LecturaSensor(textArea, null);
+		LecturaSensor Arduino = new LecturaSensor(textArea);
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(170, 90, 253, 194);
 		add(scrollPane);
@@ -93,7 +93,7 @@ public class panel_log_datos extends JPanel {
 		btnNewButton_3.setBounds(20, 266, 89, 23);
 		add(btnNewButton_3);
 		
-		JComboBox<Puertos> comboBox = new JComboBox<Puertos>();
+		JComboBox<String> comboBox = new JComboBox<String>();
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(comboBox.getSelectedItem()!= Puertos.None) {
@@ -104,10 +104,10 @@ public class panel_log_datos extends JPanel {
 				}
 			}
 		});
-		
-		comboBox.setModel(new DefaultComboBoxModel<Puertos>(Puertos.values()));
 		comboBox.setBounds(205, 57, 70, 22);
 		add(comboBox);
+		List<String> ListaPuertos = Arduino.getPuertos();
+		comboBox.setModel(new DefaultComboBoxModel<String>(ListaPuertos.toArray(new String[0])));
 		
 		JLabel lblNewLabel_1 = new JLabel("Puerto");
 		lblNewLabel_1.setBounds(163, 57, 46, 14);

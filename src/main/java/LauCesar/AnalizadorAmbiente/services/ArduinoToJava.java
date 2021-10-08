@@ -1,20 +1,20 @@
 package LauCesar.AnalizadorAmbiente.services;
 
-import java.net.http.WebSocket.Listener;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JTextArea;
 
 import com.panamahitek.ArduinoException;
 import com.panamahitek.PanamaHitek_Arduino;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.panamahitek.PanamaHitek_MultiMessage;
 
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
 
 import LauCesar.AnalizadorAmbiente.Exceptions.DispositivoNoConectado;
+import LauCesar.AnalizadorAmbiente.Exceptions.ExcepcionLectura;
 import LauCesar.AnalizadorAmbiente.Modelos.*;
 
 public class ArduinoToJava implements Runnable {
@@ -24,11 +24,11 @@ public class ArduinoToJava implements Runnable {
 	private volatile boolean finalizado;
 	private int numDatos;
 	JTextArea text;
-	PanamaHitek_Arduino ino;
+	protected PanamaHitek_Arduino ino;
 	private Escucha_sensor listener;
 	String Puerto;
-	public boolean error=false;	
-
+	public boolean error = false;
+	protected PanamaHitek_MultiMessage multi;
 
 	public ArduinoToJava(String Puerto, JTextArea a) {
 		Data = new LinkedList<DatoSensor>();
@@ -37,10 +37,11 @@ public class ArduinoToJava implements Runnable {
 		finalizado = false;
 		numDatos = 0;
 		this.text = a;
-		this.Puerto=Puerto;
-		if(a!=null)
-		if(Puerto != null)
-			inicializaSensor();
+		this.Puerto = Puerto;
+		ino = new PanamaHitek_Arduino();
+		if (a != null)
+			if (Puerto != null)
+				inicializaSensor();
 	}
 
 	public ArduinoToJava(String Puerto) {
@@ -49,25 +50,47 @@ public class ArduinoToJava implements Runnable {
 		o = new Object();
 		finalizado = false;
 		numDatos = 0;
-		this.Puerto=Puerto;
-		if(Puerto != null)
+		ino = new PanamaHitek_Arduino();
+		this.Puerto = Puerto;
+		if (Puerto != null)
 			inicializaSensor();
+
 	}
+
+	public ArduinoToJava() {
+		Data = new LinkedList<DatoSensor>();
+		pause = false;
+		o = new Object();
+		finalizado = false;
+		numDatos = 0;
+		ino = new PanamaHitek_Arduino();
+
+	}
+
 	public void inicializaTarde(String Puerto) {
-		this.Puerto=Puerto;
+		this.Puerto = Puerto;
 		inicializaSensor();
 	}
-	private void inicializaSensor()  {
+
+	public List<String> getPuertos() {
+		return ino.getSerialPorts();
+	}
+
+	private void inicializaSensor() {
 		listener = new Escucha_sensor();
-		ino = new PanamaHitek_Arduino();
+
+		multi = new PanamaHitek_MultiMessage(3, ino);
+
 		try {
 			ino.arduinoRXTX(Puerto, 9600, listener);
-			error = true;
+
+			error = false;
 		} catch (Exception e) {
 			System.err.println("Aqui no esta el sensor");
 			error = true;
 		}
 	}
+
 	public boolean getFinalizado() {
 		return finalizado;
 	}
@@ -102,7 +125,7 @@ public class ArduinoToJava implements Runnable {
 			} catch (InterruptedException e) {
 				System.err.println("Hubo un error al pausar la lectura de datos");
 			} catch (Exception e) {
-				System.err.println("Hubo un error en aggregar Dato sensor");
+				System.err.println("Hubo un error en agregar Dato sensor" + e.getMessage());
 			}
 
 		}
@@ -118,39 +141,40 @@ public class ArduinoToJava implements Runnable {
 		return Data;
 	}
 
-	public void AgregaUnDatoSensor() throws InterruptedException, DispositivoNoConectado {
-
-		DatoSensor a, b, c, d;
-		a = new DatoSensor(Math.random() * 10, tipodesensor.gas);
-		b = new DatoSensor(Math.random() * 10, tipodesensor.temperatura);
-		c = new DatoSensor(Math.random() * 10, tipodesensor.polvo);
-		d = new DatoSensor(Math.random() * 10, tipodesensor.humedad);
-		Data.add(a);
-		numDatos++;
-		Data.add(b);
-		numDatos++;
-		Data.add(c);
-		numDatos++;
-		Data.add(d);
-		numDatos++;
-		if (text != null)
-			text.append(a.toString() + b.toString() + c.toString() + d.toString());
-
-		Thread.sleep(400);
+	public void AgregaUnDatoSensor() throws InterruptedException, DispositivoNoConectado, ExcepcionLectura {
+		try {
+			Thread.sleep(100);
+			ino.sendByte('H');
+			ino.sendByte('p');
+			ino.sendByte('t');
+			ino.sendByte('h');
+			Thread.sleep(100);
+		} catch (ArduinoException e) {
+			throw new ExcepcionLectura(e.getMessage());
+		} catch (SerialPortException e) {
+			throw new DispositivoNoConectado(e.getMessage());
+		}
+		 
 	}
-	
+
 	class Escucha_sensor implements SerialPortEventListener {
 		@Override
 		public void serialEvent(SerialPortEvent spe) {
 			try {
 				if (ino.isMessageAvailable()) {
-					
+					String mensaje=ino.printMessage();
+ 					numDatos++;
+ 					String[] Separado = mensaje.split(":");
+ 					if(Separado.length==2 && Separado[0].length()>1 && Separado[1].length()>1 ) {
+ 						DatoSensor x = new DatoSensor(mensaje);
+ 						Data.add(x);
+ 						text.append(x.toString());
+ 					}
 				}
 			} catch (SerialPortException | ArduinoException ex) {
-			
+				System.out.println("Hay un error" + ex.getMessage());
 			}
 		}
 	};
-	
 
 }

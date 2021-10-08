@@ -235,7 +235,7 @@ public class Grafica_update extends JFrame {
 			case temperatura:
 				return Lectura_Sensores.TodosLosDatosTemperatura();
 			default:
-				throw new ExcepcionLectura();
+				throw new ExcepcionLectura("Ete sensor no esta registrado ");
 			}
 		}
 	}

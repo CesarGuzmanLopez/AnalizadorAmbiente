@@ -41,17 +41,13 @@ void loop() {
           Serial.println("Humo: "+String(humo()));
           break;
        case('\n'):
-             
        case('\t'):
        case('\0'):
        case('.'):
-       
-       
             break;        
         default:
-            Serial.println("error");
-            break;            
-      
+            Serial.println(option+ " error");
+            break;
       }
    }
   
