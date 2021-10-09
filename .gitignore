@@ -1,2 +1,6 @@
 /target/
 *.class
+target/*
+/bin/
+bin/*
+.project
