@@ -17,8 +17,9 @@ const int DHTPin = 5;     // what digital pin we're connected to
 DHT dht(DHTPin, DHTTYPE);
 char option = ' ';
 void setup() {
+   delay(100);
    Serial.begin(9600);
-   Serial.println("DHTxx test!");
+   
 
    dht.begin();
 }
@@ -29,16 +30,16 @@ void loop() {
     option = Serial.read();
     switch(option){
       case('t'):
-          Serial.println("Temperatura: "+String(temperatura()));
+          Serial.println("Temperatura:"+String(temperatura())+"\n");
           break;
       case('H'):
-          Serial.println("Humedad: "+String(humedad()));
+          Serial.println("Humedad:"+String(humedad())+"\n");
           break;
        case('p'):
-          Serial.println("Polvo: "+String(polvo()));
+          Serial.println("Polvo:"+String(polvo())+"\n");
           break;
        case('h'):
-          Serial.println("Humo: "+String(humo()));
+          Serial.println("Humo:"+String(humo())+"\n");
           break;
        case('\n'):
        case('\t'):
@@ -55,14 +56,14 @@ void loop() {
 }
 
 float polvo(){
-  return random(1,100);
+  return 1;
   }
 float humedad(){
-  return random(1,100);
+  return 2;
   }
 float temperatura(){
-  return random(1,100);
+  return 3;
   }
 float humo(){
-  return random(1,100);
+  return 4;
   }
