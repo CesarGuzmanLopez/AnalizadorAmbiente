@@ -1,11 +1,14 @@
 #include "HumoGas.h"
-HumoGasMQ2::SensorHG *Sensorhg;
+#include "TemperaturaHumedad.h"
 
+HumoGasMQ2::SensorHG *Sensorhg;
+TemHumDHT11::TempHumo *SensorDHT;
 void setup() {
   delay(100);
   Serial.begin(9600);
   Sensorhg =new HumoGasMQ2::SensorHG(0);
-
+  SensorDHT=new TemHumDHT11::TempHumo(2);
+  
 }
 void loop() {
   char option = '\0';
@@ -46,7 +49,7 @@ float humedad() {
   return 2;
 }
 float temperatura() {
-  return 3;
+  return SensorDHT->getTemperatura();
 }
 float humo() {
   return Sensorhg->porcentaje_gas();

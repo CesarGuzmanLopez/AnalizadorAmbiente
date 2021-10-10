@@ -1,8 +1,6 @@
 #ifndef _HUMOGAS_H
 #define _HUMOGAS_H
 namespace HumoGasMQ2 {
-
-
 class SensorHG {
     const int   resistenciaL = 5;
     const int   ResistenciaLimpio = 9.83;
@@ -24,13 +22,12 @@ class SensorHG {
       }
       val = val / 50;                                                                                       //calcular el valor medio
       Ro = val / ResistenciaLimpio;
-    
     }
     float calc_res(int raw_adc)
     {
       return ( ((float)ResistenciaLimpio * (1023 - raw_adc) / raw_adc));
     }
-    
+
     float lecturaMQ() {
       int i;
       float rs = 0;
@@ -46,7 +43,4 @@ class SensorHG {
     }
 };
 }
-
-
-
 #endif
