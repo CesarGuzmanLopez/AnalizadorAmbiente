@@ -46,7 +46,7 @@ inline float polvo() {
   return 4;
 }
 float humedad() {
-  return 2;
+   return SensorDHT->getHumedad();
 }
 float temperatura() {
   return SensorDHT->getTemperatura();
