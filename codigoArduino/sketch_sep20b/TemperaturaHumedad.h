@@ -4,7 +4,6 @@
 namespace TemHumDHT11 {
 
 class TempHumo {
-
     DHT *dht;
   public:
     TempHumo(int Digitalport) {

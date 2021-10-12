@@ -9,7 +9,6 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
-import LauCesar.AnalizadorAmbiente.Modelos.*;
 public class panel_analizar_datos extends JPanel {
 	/**
 	 * 
@@ -59,6 +58,7 @@ public class panel_analizar_datos extends JPanel {
 		textArea.setBounds(201, 80, 239, 209);
 		add(textArea);
 
+		
 		JButton btnNewButton_2 = new JButton("Graficas");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

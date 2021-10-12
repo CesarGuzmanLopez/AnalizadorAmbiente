@@ -1,14 +1,15 @@
 #include "HumoGas.h"
 #include "TemperaturaHumedad.h"
-
-HumoGasMQ2::SensorHG *Sensorhg;
-TemHumDHT11::TempHumo *SensorDHT;
+#include "polvo.h"
+HumoGasMQ2::SensorHG   *Sensorhg;
+TemHumDHT11::TempHumo  *SensorDHT;
+POLVOgp2y::SensorPolvo *SensorP;
 void setup() {
   delay(100);
   Serial.begin(9600);
   Sensorhg =new HumoGasMQ2::SensorHG(0);
   SensorDHT=new TemHumDHT11::TempHumo(2);
-  
+  SensorP  =new POLVOgp2y::SensorPolvo(2,4);
 }
 void loop() {
   char option = '\0';
@@ -38,12 +39,14 @@ void loop() {
         break;
     }
   }
-
+  free(Sensorhg);
+  free(SensorDHT);
+  free(SensorP);
   delay(100);
 }
 
 inline float polvo() {
-  return 4;
+  return SensorP->getPolvo();
 }
 float humedad() {
    return SensorDHT->getHumedad();
