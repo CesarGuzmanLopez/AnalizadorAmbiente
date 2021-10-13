@@ -5,51 +5,54 @@ HumoGasMQ2::SensorHG   *Sensorhg;
 TemHumDHT11::TempHumo  *SensorDHT;
 POLVOgp2y::SensorPolvo *SensorP;
 void setup() {
-  delay(100);
   Serial.begin(9600);
-  Sensorhg =new HumoGasMQ2::SensorHG(0);
-  SensorDHT=new TemHumDHT11::TempHumo(2);
-  SensorP  =new POLVOgp2y::SensorPolvo(2,4);
+  Sensorhg = new HumoGasMQ2::SensorHG(0);
+  SensorDHT = new TemHumDHT11::TempHumo(2);
+  SensorP  = new POLVOgp2y::SensorPolvo(A2, 4);
 }
 void loop() {
   char option = '\0';
   
-  if (Serial.available() != 0) {
-    option = Serial.read();
-    switch (option) {
-      case ('t'):
-        Serial.println("Temperatura:" + String(temperatura()) + "\n");
-        break;
-      case ('H'):
-        Serial.println("Humedad:" + String(humedad()) + "\n");
-        break;
-      case ('p'):
-        Serial.println("Polvo:" + String(polvo()) + "\n");
-        break;
-      case ('h'):
-        Serial.println("Humo:" + String(humo()) + "\n");
-        break;
-      case ('\n'):
-      case ('\t'):
-      case ('\0'):
-      case ('.'):
-        break;
-      default:
-        Serial.println(option + " error");
-        break;
-    }
+  if (Serial.available() == 0)
+    return;
+    
+  option = Serial.read();
+  
+  switch (option) {
+    case ('t'):
+      Serial.println("Temperatura:" + String(temperatura()) + "\n");
+      break;
+    case ('H'):
+      Serial.println("Humedad:" + String(humedad()) + "\n");
+      break;
+    case ('p'):
+      Serial.println("Polvo:" + String(polvo()) + "\n");
+      break;
+    case ('h'):
+      Serial.println("Humo:" + String(humo()) + "\n");
+      break;
+    case ('\n'):
+    case ('\t'):
+    case ('\0'):
+    case ('.'):
+      break;
+    default:
+      Serial.println(option + " error");
+      break;
+
   }
+
+  
   free(Sensorhg);
   free(SensorDHT);
   free(SensorP);
-  delay(100);
 }
 
 inline float polvo() {
   return SensorP->getPolvo();
 }
 float humedad() {
-   return SensorDHT->getHumedad();
+  return SensorDHT->getHumedad();
 }
 float temperatura() {
   return SensorDHT->getTemperatura();
