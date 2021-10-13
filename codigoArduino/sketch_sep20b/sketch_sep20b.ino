@@ -5,10 +5,13 @@ HumoGasMQ2::SensorHG   *Sensorhg;
 TemHumDHT11::TempHumo  *SensorDHT;
 POLVOgp2y::SensorPolvo *SensorP;
 void setup() {
+  
   Serial.begin(9600);
+  
   Sensorhg = new HumoGasMQ2::SensorHG(0);
   SensorDHT = new TemHumDHT11::TempHumo(2);
   SensorP  = new POLVOgp2y::SensorPolvo(A2, 4);
+  
 }
 void loop() {
   char option = '\0';
@@ -43,13 +46,12 @@ void loop() {
   }
 
   
-  free(Sensorhg);
-  free(SensorDHT);
-  free(SensorP);
+  
 }
 
 inline float polvo() {
   return SensorP->getPolvo();
+  
 }
 float humedad() {
   return SensorDHT->getHumedad();
